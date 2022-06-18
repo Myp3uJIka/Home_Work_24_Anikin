@@ -2,6 +2,8 @@ import os
 
 from flask import request
 
+AVAILABLE_COMMANDS = 'Available commands: filter, map, unique, limit.'
+
 
 def check_query(DATA_DIR):  # наличия требуемых параметров в запросе включая проверку наличия файла для обработки
     try:
@@ -57,4 +59,4 @@ def processing(cmd, value, data):  # вызов функции для обраб
     elif cmd == 'limit':
         return req_limit(value, data)
     else:
-        return f'{cmd} is not defined'
+        return f'{cmd} is not defined. {AVAILABLE_COMMANDS}'
