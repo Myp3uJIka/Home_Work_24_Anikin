@@ -40,7 +40,7 @@ def perform_query():
     if 'is not defined' in processing(cmd2, value2, res_cmd1):
         raise BadRequest(description=f'{cmd2} is not defined')
     else:
-        res_cmd2 = processing(cmd2, value2, response_data)
+        res_cmd2 = processing(cmd2, value2, res_cmd1)
 
     content = '\n'.join(res_cmd2)
 
