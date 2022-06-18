@@ -32,13 +32,13 @@ def perform_query():
         response_data = f.read().split('\n')
 
     # запуск обработки
-    if 'is not defined' in processing(cmd1, value1, response_data):
-        raise BadRequest(description=f'{cmd1} is not defined')
+    if f'{request.json["cmd1"]} is not defined' in processing(cmd1, value1, response_data):
+        raise BadRequest(description=processing(cmd1, value1, response_data))
     else:
         res_cmd1 = processing(cmd1, value1, response_data)
 
-    if 'is not defined' in processing(cmd2, value2, res_cmd1):
-        raise BadRequest(description=f'{cmd2} is not defined')
+    if f'{request.json["cmd2"]} is not defined' in processing(cmd2, value2, res_cmd1):
+        raise BadRequest(description=processing(cmd2, value2, res_cmd1))
     else:
         res_cmd2 = processing(cmd2, value2, res_cmd1)
 
