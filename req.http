@@ -4,7 +4,7 @@ Content-Type: application/json
 {
   "file_name": "apache_logs.txt",
   "cmd1": "filter",
-  "value1": "GET",
+  "value1": "POST",
   "cmd2": "map",
   "value2": "0"
 }
@@ -39,9 +39,9 @@ Content-Type: application/json
 
 {
   "file_name": "apache_logs.txt",
-  "cmd1": "map",
+  "cmd1": "unique",
   "value1": "0",
-  "cmd2": "unique",
+  "cmd2": "sort1",
   "value2": "",
   "smth": "smth"
 }

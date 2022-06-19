@@ -1,8 +1,9 @@
 import os
 
 
-from flask import Flask, request
+from flask import Flask
 from werkzeug.exceptions import BadRequest
+
 
 from functions import check_query, processing
 
@@ -19,28 +20,23 @@ def perform_query():
     unique, sort, limit.
     :return: результат обработки двух команд (cmd1 & cmd2)
     """
+    try:
+        file_name, cmd1, value1, cmd2, value2 = check_query()
+    except KeyError as e:
+        raise BadRequest(description=f'Not found: {e}')
 
-    # проверка корректности запроса
-    if 'one or more parameters was not defined' in check_query(DATA_DIR):
-        raise BadRequest(description=check_query(DATA_DIR))
-    elif f'{request.json["file_name"]} was not found' in check_query(DATA_DIR):
-        raise BadRequest(description=check_query(DATA_DIR))
-    else:
-        file_path, file_name, cmd1, value1, cmd2, value2 = check_query(DATA_DIR)
+    file_path = os.path.join(DATA_DIR, file_name)
+    if not os.path.exists(file_path):
+        raise BadRequest(description=f'{file_name} was not found')
 
     with open(file_path, 'r', encoding='utf-8') as f:
         response_data = f.read().split('\n')
 
-    # запуск обработки
-    if f'{request.json["cmd1"]} is not defined' in processing(cmd1, value1, response_data):
-        raise BadRequest(description=processing(cmd1, value1, response_data))
-    else:
+    try:
         res_cmd1 = processing(cmd1, value1, response_data)
-
-    if f'{request.json["cmd2"]} is not defined' in processing(cmd2, value2, res_cmd1):
-        raise BadRequest(description=processing(cmd2, value2, res_cmd1))
-    else:
         res_cmd2 = processing(cmd2, value2, res_cmd1)
+    except BadRequest as e:
+        raise BadRequest(description=e)
 
     content = '\n'.join(res_cmd2)
 
