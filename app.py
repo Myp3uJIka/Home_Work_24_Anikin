@@ -1,9 +1,8 @@
 import os
 
-
-from flask import Flask
+from flask import Flask, request, Response
 from werkzeug.exceptions import BadRequest
-
+from typing import Optional, Dict, Any
 
 from functions import check_query, processing
 
@@ -21,7 +20,7 @@ def perform_query():
     :return: результат обработки двух команд (cmd1 & cmd2)
     """
     try:
-        file_name, cmd1, value1, cmd2, value2 = check_query()
+        file_name, cmd1, value1, cmd2, value2 = check_query(request.json)
     except KeyError as e:
         raise BadRequest(description=f'Not found: {e}')
 
@@ -31,7 +30,6 @@ def perform_query():
 
     with open(file_path, 'r', encoding='utf-8') as f:
         response_data = f.read().split('\n')
-
     try:
         res_cmd1 = processing(cmd1, value1, response_data)
         res_cmd2 = processing(cmd2, value2, res_cmd1)

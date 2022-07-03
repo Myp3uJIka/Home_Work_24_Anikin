@@ -4,7 +4,7 @@ Content-Type: application/json
 {
   "file_name": "apache_logs.txt",
   "cmd1": "filter",
-  "value1": "POST",
+  "value1": "GET",
   "cmd2": "map",
   "value2": "0"
 }
@@ -39,9 +39,33 @@ Content-Type: application/json
 
 {
   "file_name": "apache_logs.txt",
-  "cmd1": "unique",
+  "cmd1": "map",
   "value1": "0",
-  "cmd2": "sort1",
-  "value2": "",
+  "cmd2": "sort",
+  "value2": "desc",
   "smth": "smth"
+}
+
+###
+POST http://127.0.0.1:5000/perform_query
+Content-Type: application/json
+
+{
+  "file_name": "apache_logs.txt",
+  "cmd1": "regex",
+  "value1": "images\/\\w+\\.png",
+  "cmd2": "map",
+  "value2": "6"
+}
+
+###
+POST http://127.0.0.1:5000/perform_query
+Content-Type: application/json
+
+{
+  "file_name": "apache_logs.txt",
+  "cmd1": "regex",
+  "value1": "images\/\\w+-\\w+\\.png",
+  "cmd2": "map",
+  "value2": "6"
 }
